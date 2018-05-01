@@ -4,7 +4,7 @@
   "author": "eden",
   "description": "min programe image Loader",
   "license": "MIT",
-  "main": "dist/cjs.js",
+  "main": "dist/index.js",
   "files": [
     "dist"
   ],
@@ -44,6 +44,7 @@
     "@webpack-contrib/eslint-config-webpack": "^2.0.2",
     "@webpack-contrib/test-utils": "^0.1.2",
     "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.2.3",
     "babel-jest": "^22.0.3",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",

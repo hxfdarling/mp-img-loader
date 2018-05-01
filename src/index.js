@@ -1,10 +1,8 @@
 /* eslint-disable
   global-require,
   no-param-reassign,
-  prefer-destructuring,
   import/no-dynamic-require,
 */
-
 import { getOptions } from 'loader-utils';
 import validateOptions from 'schema-utils';
 import mime from 'mime';
