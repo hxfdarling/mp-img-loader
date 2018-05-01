@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "properties": {
+    "mode": {
+      "type": "string"
+    },
+    "qcloud": {
+      "type": "object"
+    },
+    "upload": {
+      "type": "object"
+    },
+    "mimetype": {
+      "type": "string"
+    },
+    "fallback": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

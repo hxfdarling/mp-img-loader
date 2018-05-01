@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Errors Validation Error 1`] = `
+"Module build failed: ValidationError: mp image Loader Invalid Options
+
+options.mode should be string
+"
+`;
