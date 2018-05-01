@@ -32,6 +32,8 @@
     "defaults": "webpack-defaults"
   },
   "dependencies": {
+    "cos-nodejs-sdk-v5": "^2.3.10",
+    "gulp-util": "^3.0.8",
     "loader-utils": "^1.1.0",
     "mime": "^2.0.3",
     "schema-utils": "^0.4.3"

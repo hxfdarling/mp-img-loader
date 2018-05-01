@@ -14,3 +14,6 @@ Thumbs.db
 .vscode
 *.sublime-project
 *.sublime-workspace
+yarn.lock
+package-lock.json
+test/loader_qcloud.test.js
