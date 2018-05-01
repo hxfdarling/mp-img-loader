@@ -1,3 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Loader Defaults 1`] = `"module.exports = \\"http://sngedu-10000074.cos.ap-shanghai.myqcloud.com/wxapp-file-9c87cbf3ba33126ffd25ae7f2f6bbafb.png\\""`;
+exports[`Loader qcloud 1`] = `"module.exports = \\"http://sngedu-10000074.cos.ap-shanghai.myqcloud.com/min-programe-file-9c87cbf3ba33126ffd25ae7f2f6bbafb.png\\""`;

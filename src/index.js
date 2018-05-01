@@ -4,9 +4,6 @@
   prefer-destructuring,
   import/no-dynamic-require,
 */
-import path from 'path';
-
-import crypto from 'crypto';
 
 import { getOptions } from 'loader-utils';
 import validateOptions from 'schema-utils';
@@ -16,23 +13,10 @@ import QCloud from './qcloud';
 
 import schema from './options.json';
 
-function toCloud(resource, buffer, option) {
-  const md5 = crypto.createHash('md5');
-  const result = md5.update(buffer).digest('hex');
-  let baseName = path.basename(resource).split('.');
-  baseName.pop();
-  baseName = baseName.join('');
-  const key = `wxapp-${baseName}-${result}${path.extname(resource)}`;
-  const url = `http://${option.bucket}-${option.appId}.cos.${
-    option.region
-  }.myqcloud.com/${encodeURIComponent(key)}`;
-  return { key, url };
-}
-
 // Loader Mode
 export const raw = true;
 
-export default function loader(src, map, meta) {
+export default function loader(buffer, map, meta) {
   // Loader Options
   const options = Object.assign(
     {
@@ -40,38 +24,51 @@ export default function loader(src, map, meta) {
     },
     getOptions(this)
   );
-  const { mode, qcloud } = options;
+  const { mode, qcloud, upload, fallback } = options;
   let { mimetype } = options;
 
   validateOptions(schema, options, 'mp image Loader');
 
-  const file = this.resourcePath;
-  const resource = this.resource;
-  const callback = this.async();
+  const filePath = this.resourcePath;
+  const local = /(\?|&)local/.test(this.resource);
 
   let code = '';
 
   // Get MIME type
-  mimetype = mimetype || mime.getType(file);
+  mimetype = mimetype || mime.getType(filePath);
 
-  if (typeof src === 'string') {
-    src = Buffer.from(src);
+  if (typeof buffer === 'string') {
+    buffer = Buffer.from(buffer);
   }
+  if (local) {
+    return require(fallback || 'file-loader').call(this, buffer);
+  }
+  const callback = this.async();
+
   if (mode === 'base64') {
     code = `module.exports = ${JSON.stringify(
-      `data:${mimetype || ''};base64,${src.toString('base64')}`
+      `data:${mimetype || ''};base64,${buffer.toString('base64')}`
     )}`;
     callback(null, code, map, meta);
   } else if (mode === 'qcloud') {
-    const { key, url } = toCloud(resource, src, qcloud);
-
-    QCloud(qcloud)([{ data: src, key }])
-      .then(() => {
-        code = `module.exports = "${url}"`;
-        callback(null, code, map, meta);
-      })
-      .catch((e) => {
-        callback(e, code, map, meta);
-      });
+    if (qcloud) {
+      new QCloud(qcloud)
+        .uploadFile({
+          buffer,
+          filePath,
+        })
+        .then((url) => {
+          code = `module.exports = "${url}"`;
+          callback(null, code, map, meta);
+        })
+        .catch((e) => {
+          callback(e, code, map, meta);
+        });
+    } else if (upload) {
+      upload({ buffer, filePath, local });
+    } else {
+      throw new Error('qcloud mode need qcloud option or upload function');
+    }
   }
+  return null;
 }

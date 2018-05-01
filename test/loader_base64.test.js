@@ -4,7 +4,7 @@
 import webpack from '@webpack-contrib/test-utils';
 
 describe('Loader', () => {
-  test('Defaults', async () => {
+  test('base64', async () => {
     const config = {
       loader: {
         test: /\.png$/,
