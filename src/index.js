@@ -21,6 +21,9 @@ export default function loader(src, map, meta) {
     },
     getOptions(this)
   );
+  const { mode } = options;
+  let { mimetype } = options;
+
   validateOptions(schema, options, 'mp image Loader');
 
   const file = this.resourcePath;
@@ -30,16 +33,18 @@ export default function loader(src, map, meta) {
   let code = '';
 
   // Get MIME type
-  const mimetype = options.mimetype || mime.getType(file);
+  mimetype = mimetype || mime.getType(file);
 
   if (typeof src === 'string') {
     src = Buffer.from(src);
   }
-  if (options.mode === 'base64') {
+  if (mode === 'base64') {
     code = `module.exports = ${JSON.stringify(
       `data:${mimetype || ''};base64,${src.toString('base64')}`
     )}`;
+    callback(null, code, map, meta);
+  } else if (mode === 'qcloud') {
+    code = `qcloud  ${resource}`;
+    callback(null, code, map, meta);
   }
-
-  callback(null, code, map, meta);
 }

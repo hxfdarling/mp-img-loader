@@ -1,8 +1,8 @@
 {
-  "name": "mp-img-loader",
+  "name": "mp-image-loader",
   "version": "1.0.0",
   "author": "eden",
-  "description": "image Loader for webpack",
+  "description": "min programe image Loader",
   "license": "MIT",
   "main": "dist/cjs.js",
   "files": [
@@ -71,9 +71,6 @@
   "peerDependencies": {
     "webpack": "^3.0.0 || ^4.0.0"
   },
-  "homepage": "https://github.com/webpack-contrib/url-loader",
-  "repository": "https://github.com/webpack-contrib/url-loader",
-  "bugs": "https://github.com/webpack-contrib/url-loader/issues",
   "pre-commit": "lint-staged",
   "lint-staged": {
     "*.js": [
